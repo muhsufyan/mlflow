@@ -43,3 +43,19 @@ pip install package-1.0.0-py3-none-any.whl --force-reinstall
 # tes memanggil package yg tlh kita buat
 cd ../..
 python .\run.py
+
+# penambahan file di feature sehingga file di direktori feature ada data_preprocessing.py, preprocessing.py, dan split_data.py
+# kode untuk di file train.py pd direktori ml_training
+# pembuatan direktori baru yaitu utils dg file utils.py
+# dibagian setup.py bagian install_requires dinon aktifkan
+
+# lalu jlnkan lagi perintah
+cd package
+python -m build 
+cd dist
+pip install package-1.0.0-py3-none-any.whl --force-reinstall
+cd ../..
+# diterminal yg lainnya jlnkan mlflow webserver
+mlflow ui
+# jlnkan proses preprocessing, training, evaluasi model serta mlflow tracking
+python .\run.py

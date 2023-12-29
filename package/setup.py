@@ -5,6 +5,6 @@ setup(
     version="1.0.0",
     description="package latihan mlflow",
     author="sufyan",
-    packages=['package.feature', 'package.ml_training'],
-    install_requires=['numpy','pandas','scikit-learn','matplotlib','mlflow']
+    packages=['package.feature', 'package.ml_training','package.utils'],
+    # install_requires=['numpy','pandas','scikit-learn','matplotlib','mlflow']
 )

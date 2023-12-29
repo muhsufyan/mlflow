@@ -1,3 +1,4 @@
+env/*
+mlruns/*
 package/dist/*
 package/package.egg-info/*
-env/*
