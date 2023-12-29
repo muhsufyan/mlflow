@@ -1,2 +1,1 @@
-bagian ini berisi dasar dari mlflow 
-
+bagian ini berisi latihan mlflow machine learning

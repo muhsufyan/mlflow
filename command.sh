@@ -1,0 +1,45 @@
+# buat environment 
+python -m venv env
+
+# masuk ke environment
+# jika di windows
+.\env\Scripts\activate
+# jika di linux/mac
+source .\env\bin\activate
+
+# latihan ini akan dibungkus dlm 1 package. cara buat package nya
+mkdir package\package
+cd package
+touch setup.py
+mkdir package
+# direktori untuk feature dan training model
+mkdir feature ml_training
+
+# buat file yg handle preprocessing
+cd feature
+touch data_preprocessing.py
+
+cd ..
+
+# buat file yg handle training
+cd ml_training
+touch train.py
+
+# tes
+cd ../../..
+touch run.py
+
+# buat package
+cd package
+pip install build
+python -m build 
+# maka akan mengenerate direktori dist (distribution) yg mrpkn package buatan kita sendiri
+# untuk menggunakan package nya jlnkan perintah brkt (tp sblmnya kita lihat perbedaan dg pip list)
+cd dist 
+# install package yg kita buat. caranya dg menginstall file berekstensi .whl
+pip install package-1.0.0-py3-none-any.whl --force-reinstall
+# pip list dan lihat bagian package, inilah package yg telah kita buat sendiri
+
+# tes memanggil package yg tlh kita buat
+cd ../..
+python .\run.py
