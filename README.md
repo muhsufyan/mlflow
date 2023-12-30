@@ -1,2 +1,2 @@
-bagian ini berisi dasar dari mlflow 
+bagian ini berisi melakukan hyperparameter tuning menggunakan hyperopt
 
