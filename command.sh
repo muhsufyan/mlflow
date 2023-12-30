@@ -63,3 +63,12 @@ python .\run.py
 # di root work directory, buat file yg akan memprediksi/inference dalam batches
 touch batch_inference.py
 python .\batch_inference.py
+
+# di root work dir, buat file yg akan memprediksi/inference scra online/real time/langsung
+touch online_inference.py
+
+# untuk deploy model menggunakan mlflow maka gunakan perintah
+mlflow models serve --model-uri models:/registered_model/latest --no-conda 
+# maka model akan dideploy, kasus ini local
+# jlnkan testing untuk real time/online inference
+python .\online_inference.py
