@@ -59,3 +59,7 @@ cd ../..
 mlflow ui
 # jlnkan proses preprocessing, training, evaluasi model serta mlflow tracking
 python .\run.py
+
+# di root work directory, buat file yg akan memprediksi/inference dalam batches
+touch batch_inference.py
+python .\batch_inference.py
