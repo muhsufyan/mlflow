@@ -72,3 +72,10 @@ mlflow models serve --model-uri models:/registered_model/latest --no-conda
 # maka model akan dideploy, kasus ini local
 # jlnkan testing untuk real time/online inference
 python .\online_inference.py
+
+# mlflow + fastapi
+pip install fastapi uvicorn
+# aktifkan mlflow
+mlflow server --host 0.0.0.0 --port 5000
+# aktifkan fastapi
+uvicorn main:app --reload

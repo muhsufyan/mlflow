@@ -21,6 +21,7 @@ if __name__=="__main__":
     model_uri = "models:/registered_model/latest"
     mlflow_model = mlflow.sklearn.load_model(model_uri=model_uri)
 
+    print(x_score[features])
     # inference/prediksi data oleh model
     predictions = mlflow_model.predict(x_score[features])
 

@@ -12,10 +12,10 @@ import mlflow
 
 if __name__ == "__main__":
     # setup untuk mlflow experiment
-    experiment_name = "house_pricing_classifier"
-    run_name = "training_classifier"
-    model_name = "registered_model"
-    artifact_path = "model"
+    experiment_name = "house_pricing_classifier_2"
+    run_name = "training_classifier_2"
+    model_name = "registered_model_2"
+    artifact_path = "model_2"
     
     # get dataset, proses EDA di skip karena mlflow disini hanya fokus dibagian modeling
     # untuk EDA lakukan dg dvc

@@ -2,3 +2,7 @@ env/*
 mlruns/*
 package/dist/*
 package/package.egg-info/*
+sumber.txt
+__pycache__/*
+flask/mlruns/*
+flask/boston_artifact/*
