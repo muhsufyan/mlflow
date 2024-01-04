@@ -32,3 +32,32 @@ if __name__=="__main__":
     classification_report = classification_report(y_score, predictions)
     print(classification_report)
     print(scored_data.head(10))
+    print("="*10)
+    print(mlflow_model.predict(pd.DataFrame.from_dict([{"MedInc": 3.1333, 'HouseAge': 30.0, 'AveRooms': 5.925532, 'AveBedrms': 1.131206, 'Population' : 966.0, 'AveOccup' : 3.425532, 'Latitude' : 36.51, 'Longitude' : -119.65}])))
+    print(mlflow_model.predict(pd.DataFrame.from_dict({"MedInc": [3.1333,3.3669] , 'HouseAge': [30.0, 29.0], 'AveRooms': [5.925532, 4.589878], 'AveBedrms': [1.131206, 1.076789], 'Population' : [966.0, 1071.0], 'AveOccup' : [3.425532, 1.869110], 'Latitude' : [36.51, 34.15], 'Longitude' : [-119.65, -118.37]}))[1])
+    print("="*10)
+    from json import loads, dumps
+    # pilihannya => 'split','records','index','columns'
+    result = pd.DataFrame.from_dict([{"MedInc": 3.1333, 'HouseAge': 30.0, 'AveRooms': 5.925532, 'AveBedrms': 1.131206, 'Population' : 966.0, 'AveOccup' : 3.425532, 'Latitude' : 36.51, 'Longitude' : -119.65}]).to_json(orient='records')
+    parsed = loads(result)
+    print(dumps(parsed, indent=4)) 
+    # 
+    import json 
+    data = '''
+    [
+        {
+            "MedInc": 3.1333,
+            "HouseAge": 30.0,
+            "AveRooms": 5.925532,
+            "AveBedrms": 1.131206,
+            "Population": 966.0,
+            "AveOccup": 3.425532,
+            "Latitude": 36.51,
+            "Longitude": -119.65
+        }
+    ]
+    '''
+    parsed = json.loads(data)
+    # print(parsed)
+    cek_data = pd.DataFrame.from_dict(parsed)
+    print(mlflow_model.predict(cek_data)[0])

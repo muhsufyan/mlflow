@@ -54,69 +54,24 @@ def log_model(model_name: str = "registered_model", version: str = "1", run_name
             return JSONResponse(status_code=status.HTTP_302_FOUND, content={'status': 'Model logged'})
         except:
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND , content={'status': 'model doesn`t exist'})
-
-@app.post('/train')
-def train_model(experiment_name: str = "house_pricing_classifier", run_name: str ="training_classifier", model_name: str = "registered_model", artifact_path: str = "model"):
-    try:
-        df = get_feature_dataframe()
-
-        # split dataset
-        x_train, x_test, x_score, y_train, y_test, y_score = get_train_test_score_set(df)
-
-        # feature id, target dan MedHouseVal dari dataset tdk diambil
-        features = [f for f in x_train.columns if f not in ["id", "target", "MedHouseVal"]]
-
-        # buat pipeline dataset (data preprocessing yg kita buat)
-        pipeline = get_pipeline(numerical_features=features, categorical_features=[])
-
-        # buat mlflow experiment
-        experiment_id = set_or_create_experiment(experiment_name=experiment_name)
-
-        # lakukan training model
-        run_id, model = train_model(pipeline=pipeline, run_name=run_name, model_name=model_name, artifact_path=artifact_path, x=x_train[features], y=y_train)
-
-        # lakukan inference/prediksi 
-        y_pred = model.predict(x_test)
-
-        # matriks evaluasi
-        classification_metrics = get_classification_metrics(
-            y_true=y_test, y_pred=y_pred, prefix="test_2"
-        )
-
-        # simpan dalam gambar hsl matriks evaluasinya
-        performance_plots = get_performance_plots(
-            y_true=y_test, y_pred=y_pred, prefix="test_2"
-        )
-        
-        # log performance metrics
-        with mlflow.start_run(run_id=run_id):
-            # log metrics
-            mlflow.log_metrics(classification_metrics)
-
-            # log params
-            mlflow.log_params(model[-1].get_params())
-
-            # log tags
-            mlflow.set_tags({"type": "classifier"})
-
-            # log description
-            mlflow.set_tag(
-                "mlflow.note.content", "This is a classifier for the house pricing dataset"
-            )
-
-            # log plots (gambar matriks evaluasi)
-            for plot_name, fig in performance_plots.items():
-                mlflow.log_figure(fig, plot_name + ".png")
-        
-            return JSONResponse(status_code=status.HTTP_200_OK, content={'status': 'training completed', 'model': model, 'run id': run_id})
-    except:
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={'status': 'setup mlflow already exist'})
-
+from pydantic import BaseModel
+import pandas as pd
+class Data(BaseModel):
+    MedInc : float
+    HouseAge : float
+    AveRooms : float
+    AveBedrms : float
+    Population : float
+    AveOccup : float
+    Latitude : float
+    Longitude : float
+import json 
 # {"MedInc": 3.1333, 'HouseAge': 30.0, 'AveRooms': 5.925532, 'AveBedrms': 1.131206, 'Population' : 966.0, 'AveOccup' : 3.425532, 'Latitude' : 36.51, 'Longitude' : -119.65}
 @app.post('/predict')
-def predict(data: dict):
+def predict(data: Data):
     model_uri = "models:/registered_model/latest"
     model = mlflow.sklearn.load_model(model_uri=model_uri)
     # inference/prediksi data oleh model
-    prediction = model.predict(data)
-    return JSONResponse(status_code=status.HTTP_200_OK, content={'prediction': prediction})
+    prediction = model.predict(pd.DataFrame.from_dict([data.dict()]))[0]
+    hasil = int(prediction)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={'prediction': hasil})
