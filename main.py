@@ -51,7 +51,7 @@ def log_model(model_name: str = "registered_model", version: str = "1", run_name
         model_version_uri = "models:/{model_name}/{version}".format(model_name=model_name, version=version)
         try:
             model_version = mlflow.pyfunc.load_model(model_version_uri)
-            return JSONResponse(status_code=status.HTTP_302_FOUND, content={'status': 'Model logged'})
+            return JSONResponse(status_code=status.HTTP_200_OK, content={'status': 'Model logged'})
         except:
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND , content={'status': 'model doesn`t exist'})
 from pydantic import BaseModel
